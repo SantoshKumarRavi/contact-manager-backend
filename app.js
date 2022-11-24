@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const port = process.env.PORT||8080;
 // const URL = "mongodb+srv://abhi123:abhi123@cluster0.ihdiqnz.mongodb.net/contact-manager?retryWrites=true&w=majority" 
-const URL ='mongodb://localhost/contact-app';
+const URL ='mongodb+srv://santhosh:santhosh@cluster0.ltz9vim.mongodb.net/contactsdb?retryWrites=true&w=majority';
 const routes = require("./routes/userRoutes");
 app.use(bodyParser.json());
 
