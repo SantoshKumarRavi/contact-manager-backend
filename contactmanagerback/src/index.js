@@ -13,6 +13,11 @@ app.use(bodyParser.json());
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}));
+
 app.post("/contacts", async(req, res) => {
   await contact.insertMany(req.body, function (err, datas) {
     if (err) {
@@ -22,9 +27,19 @@ app.post("/contacts", async(req, res) => {
   });
 });
 
+app.get("/contacts", async(req, res) => {
+  await contact.find({}, function (err, datas) {
+    if (err) {
+      console.log(err);
+    };
+    res.send(JSON.stringify({message:"sucessfully saved",data:datas}));
+  }).clone()
+});
+
 app.delete("/contacts", async(req, res) => {
   // model.deleteMany({_id: { $in: _ids}}, function(err) {})
   let deleteIdArray=req.body
+  console.log("from back deletearray",deleteIdArray)
   deleteIdArray=deleteIdArray.map((x)=>mongoose.Types.ObjectId(x))
   // console.log(deleteIdArray)
   await contact.deleteMany({"_id":{$in:deleteIdArray}}, function (err, delCount) {
@@ -32,6 +47,18 @@ app.delete("/contacts", async(req, res) => {
       console.log(err);
     };
     res.send(JSON.stringify({message:"sucessfully deletes",data:delCount}));
+  }).clone();
+})
+
+//this is now i used for postman deleteall ...
+app.delete("/emptycontacts", async(req, res) => { //temporary api call for delete // by putting if req.body,we can make one api call for delete and delerte all..
+  // model.deleteMany({_id: { $in: _ids}}, function(err) {})
+  // console.log(deleteIdArray)
+  await contact.deleteMany({}, function (err, delCount) {
+    if (err) {
+      console.log(err);
+    };
+    res.send(JSON.stringify({message:"sucessfully deleted all",data:delCount}));
   }).clone();
 })
 
