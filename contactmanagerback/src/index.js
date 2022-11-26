@@ -4,6 +4,8 @@ const port = 8081;
 const mongoose=require("mongoose")
 const contact = require("../datamodel/contacts");
 const bodyParser = require("body-parser");
+const routes=require("../routes/userRoutes")
+app.use(routes);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
