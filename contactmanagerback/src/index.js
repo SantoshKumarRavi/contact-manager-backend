@@ -80,6 +80,6 @@ app.listen(port, () => {
 });
 
 mongoose.connect(
-    "mongodb+srv://Santhosh:Santhosh@cluster0.3sjrgrp.mongodb.net/contactdb?retryWrites=true&w=majority"
+    process.env.MONGODB_URI
   )
   .then(() => console.log("db connected"));
