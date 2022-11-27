@@ -23,9 +23,6 @@ router.use(bodyParser.json());
 router.use("/user", userAuthentication);
 
 router.post("/register", async (req, res) => {
-  // return res.send(JSON.stringify({message:"registered"}))
-  // console.log(req.body)
-  // return res.send("hi")
   try {
     const {email, password } = req.body;
     
@@ -47,10 +44,8 @@ router.post("/register", async (req, res) => {
         status: "success",
         message: "You are registered successfully, please Log IN",
       });
-      // console.log(saveData)
     }
   } catch (error) {
-    console.log(error)
     res.json({
       status: "failed",
       message: "Looks like some feilds are empty, please recheck",
@@ -59,11 +54,9 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  // return res.send(JSON.stringify({message:"log in"}))
   try {
     const { email, password } = req.body;
     const userdetails = await user.findOne({ email: email });
-    // console.log(userdetails);
     if (!userdetails) {
       res.status(200).json({
         status: "failed",
@@ -71,7 +64,6 @@ router.post("/login", async (req, res) => {
       });
     } else {
       const isPasswordMatching = await bcrypt.compare(password, userdetails.password);
-      console.log(isPasswordMatching ,"id",userdetails._id);
       const token = jwt.sign({email:email,id:userdetails._id}, JWT_SECRET_KEY, {
         expiresIn: "5d",
       });
@@ -80,6 +72,7 @@ router.post("/login", async (req, res) => {
           status: "success",
           message: "Welcome!! authentication successful, you are logged in successfully",
           jwt_token: token,
+          userid:userdetails._id
         });
       } else {
         res.status(200).json({
@@ -90,7 +83,6 @@ router.post("/login", async (req, res) => {
     }
     
   } catch (error) {
-    console.log("err ",error)
     res.status(404).json({
       status: "failed",
       message: "Kindly fill all the fields",
@@ -101,12 +93,7 @@ router.post("/login", async (req, res) => {
 //using middleware for authentication
 
 router.get("/user",async (req,res)=>{
-//   console.log(req.user);
-// res.send(JSON.stringify({message:"getdata"}))
-// return
-  // console.log(req)
   const data = await user.find({email:req.user.email});
-  // console.log("data",data)
     res.status(200).json({
       status:"Success",
       data:data

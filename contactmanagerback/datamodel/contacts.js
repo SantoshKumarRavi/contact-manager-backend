@@ -2,6 +2,7 @@ const mongoose=require("mongoose")
 const Schema=mongoose.Schema
 
 const contactschema = new Schema({
+    UserId:String,
     Name: String,
     Designation:String,
     Company:String,
