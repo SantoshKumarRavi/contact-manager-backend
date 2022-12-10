@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 8081;
+const port =process.env.PORT || 8082;
 const mongoose=require("mongoose")
 const contact = require("../datamodel/contacts");
 const bodyParser = require("body-parser");
@@ -21,10 +21,12 @@ app.use(cors({
 }));
 
 app.post("/contacts", async(req, res) => {
-  await contact.insertMany(req.body, function (err, datas) {
+  // console.log(req.body.data)
+  await contact.insertMany(req.body.data, function (err, datas) {
     if (err) {
       console.log(err);
     };
+    // console.log("retured sdata",datas)
     res.send(JSON.stringify({message:"sucessfully saved",data:datas}));
   });
 });
@@ -63,10 +65,9 @@ app.delete("/emptycontacts", async(req, res) => { //temporary api call for delet
     res.send(JSON.stringify({message:"sucessfully deleted all",data:delCount}));
   }).clone();
 })
-
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-mongoose.connect('mongodb+srv://santhosh:santhosh@cluster0.ltz9vim.mongodb.net/contactsdb?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URI)
 .then(()=>console.log("db connected"));

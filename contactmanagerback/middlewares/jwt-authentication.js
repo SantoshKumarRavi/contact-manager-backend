@@ -12,7 +12,6 @@ var userAuthentication = async (req,res,next)=>{
                 message:"Looks like you are not logged in, Kindly register or signup first"
             })
         }
-        
         // console.log(authorization);
         // if(authorization && authorization.startsWith("Basic")){
         //     let token = authorization.split(" ")[1].trim();
