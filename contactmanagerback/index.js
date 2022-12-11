@@ -2,9 +2,9 @@ const express = require("express");
 const app = express();
 const port =process.env.PORT || 8082;
 const mongoose=require("mongoose")
-const contact = require("../datamodel/contacts");
+const contact = require("./datamodel/contacts");
 const bodyParser = require("body-parser");
-const routes=require("../routes/userRoutes")
+const routes=require("./routes/userRoutes")
 app.use(routes);
 
 app.use(bodyParser.urlencoded({ extended: false }));
