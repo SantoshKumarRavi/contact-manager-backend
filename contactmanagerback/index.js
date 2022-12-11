@@ -39,13 +39,24 @@ app.get("/", async(req, res) => {
   // }).clone()
 });
 
-app.get("/contacts", async(req, res) => {
-  await contact.find({}, function (err, datas) {
-    if (err) {
-      console.log(err);
-    };
-    res.send(JSON.stringify({message:"sucessfully saved",data:datas}));
-  }).clone()
+// app.get("/contacts", async(req, res) => {
+//   await contact.find({}, function (err, datas) {
+//     if (err) {
+//       console.log(err);
+//     };
+//     res.send(JSON.stringify({message:"sucessfully saved",data:datas}));
+//   }).clone()
+// });
+app.get("/contacts/:id", async (req, res) => {
+  let paramId = req.params["id"];
+  const strid = paramId.valueOf();
+  await contact
+    .find({ UserId: strid }, function (err, datas) {
+      if (err) {
+        console.log(err);
+      }
+      res.send(JSON.stringify({ message: "sucessfully saved", data: datas }));
+    }).clone();
 });
 
 app.delete("/contacts", async(req, res) => {
