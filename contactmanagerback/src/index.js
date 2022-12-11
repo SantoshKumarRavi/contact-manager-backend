@@ -2,9 +2,9 @@ const express = require("express");
 const app = express();
 const port =process.env.PORT || 8082;
 const mongoose=require("mongoose")
-const contact = require("./datamodel/contacts");
+const contact = require("../datamodel/contacts");
 const bodyParser = require("body-parser");
-const routes=require("./routes/userRoutes")
+const routes=require("../routes/userRoutes")
 app.use(routes);
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,6 +29,14 @@ app.post("/contacts", async(req, res) => {
     // console.log("retured sdata",datas)
     res.send(JSON.stringify({message:"sucessfully saved",data:datas}));
   });
+});
+app.get("/", async(req, res) => {
+  // await contact.find({}, function (err, datas) {
+  //   if (err) {
+  //     console.log(err);
+  //   };
+    res.send(JSON.stringify({message:"sucessfully deployed"}));
+  // }).clone()
 });
 
 app.get("/contacts", async(req, res) => {
