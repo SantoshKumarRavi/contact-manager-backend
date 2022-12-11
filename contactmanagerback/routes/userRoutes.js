@@ -80,6 +80,7 @@ router.post("/login", async (req, res) => {
           status: "success",
           message: "Welcome!! authentication successful, you are logged in successfully",
           jwt_token: token,
+          userid:userdetails._id
         });
       } else {
         res.status(200).json({
