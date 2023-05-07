@@ -1,9 +1,10 @@
-const express = require("express");
+export const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoose = require("mongoose");
-const contact = require("../datamodel/contacts");
-const bodyParser = require("body-parser");
+export const mongoose = require("mongoose");
+export const contact = require("../datamodel/contacts");
+export const bodyParser = require("body-parser");
+export const cors = require("cors");
 const auth_routes = require("../routes/authentication/authenticate");
 const contacts_routes=require("../routes/contacts/contacts")
 require('dotenv').config();
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-const cors = require("cors");
+
 app.use(
   cors({
     origin: "*",
@@ -30,3 +31,9 @@ mongoose.connect(
 process.env.MONGODB_URI
   )
   .then(() => console.log("db connected"));
+// module.exports ={
+//   express:express,
+//   contact:contact,
+//   bodyParser:bodyParser,
+//   cors:cors
+// }

@@ -1,10 +1,12 @@
+import { Request, Response,NextFunction } from 'express'
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = "fdnbgkd656d5g6dfgmnbdfjfg";
 const user = require("../models/usermodels");
-var userAuthentication = async (req,res,next)=>{
-    console.log("it is coming in jwt")
+interface JwtObj {
+    id:String,
+  }
+var userAuthentication = async (req:Request,res:Response,next:NextFunction)=>{
         const {authorization} = req.headers;
-        
         if(!authorization){
             console.log("Sorry You are not logged in")
             return res.json({
@@ -41,7 +43,7 @@ var userAuthentication = async (req,res,next)=>{
                 
                 */
 
-                 await jwt.verify(token,JWT_SECRET_KEY, async(err,decoded) => {
+                 await jwt.verify(token,JWT_SECRET_KEY, async(err:Object,decoded:JwtObj) => {
                     
                     if (err){
                          res.status(403).json("token is not valid")

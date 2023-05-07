@@ -1,28 +1,30 @@
+import { Request, Response } from 'express'
 const express = require("express");
 const router = express.Router();
 const user = require("../../models/usermodels");
-// const CSV = require("../models/csv-model");
-// const csv = require("csvtojson");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = "fdnbgkd656d5g6dfgmnbdfjfg";
 const userAuthentication = require("../../middlewares/jwt-authentication");
 const bodyParser = require("body-parser");
-
-// const fileupload = require("express-fileupload");
-const path = require("path");
-// router.use(fileupload());
 const cors = require("cors");
 
+declare global {
+  namespace Express {
+    interface Request {
+      user: {
+        email:String
+      }
+    }
+  }
+}
 router.use(cors());
-
 router.use(bodyParser.urlencoded({ extended: false }));
-
 // parse application/json
 router.use(bodyParser.json());
 router.use("/user", userAuthentication);
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req:Request, res:Response) => {
   try {
     const {email, password } = req.body;
     
@@ -53,7 +55,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req:Request, res:Response) => {
   try {
     const { email, password } = req.body;
     const userdetails = await user.findOne({ email: email });
@@ -91,8 +93,7 @@ router.post("/login", async (req, res) => {
 });
 
 //using middleware for authentication
-
-router.get("/user",async (req,res)=>{
+router.get("/user",async (req:Request, res:Response)=>{
   const data = await user.find({email:req.user.email});
     res.status(200).json({
       status:"Success",
