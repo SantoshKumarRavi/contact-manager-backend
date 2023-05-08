@@ -4,7 +4,7 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon ./src/index.ts",
+    "start": "nodemon index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Santhosh",
@@ -29,7 +29,7 @@
   },
   "_moduleAliases": {
     "@root": ".",
-    "@utils": "build/src/utils",
-    "@configs": "build/configs"
+    "@utils": "src/utils",
+    "@configs": "configs"
   }
 }
