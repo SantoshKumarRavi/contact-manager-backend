@@ -1,23 +1,12 @@
 import { Request } from "express";
-const bcrypt = require("bcryptjs");
-const user = require("../../../models/usermodels");
-const mongoose=require("mongoose")
-const contact = require("../../../datamodel/contacts");
-interface ReqType {
-  body: {
-    email: String;
-    password: String;
-  };
-}
+const mongoose = require("mongoose");
+const contact = require("../../../models/contacts");
+
 interface objectUserContent {
   UserId: String;
   datas: any;
 }
-interface RequestType {
-  params: {
-    id: String;
-  };
-}
+
 export class Contacts {
   public async insertData(
     data: objectUserContent[],
@@ -62,22 +51,24 @@ export class Contacts {
     const db = await contact.find(obj).clone();
     return Promise.resolve(db);
   }
-  public async deleteData(req:Request): Promise<boolean> {
+  public async deleteData(req: Request): Promise<boolean> {
     let paramId = req["params"] && req["params"]["id"];
-    let strid =  paramId && paramId.valueOf();
+    let strid = paramId && paramId.valueOf();
     let deleteIdArray = req?.body;
-    let db
-    if(strid){
-      strid=mongoose.Types.ObjectId(strid)
-      db = await contact.remove({_id:strid}).clone();
-    }else if(Array.isArray(deleteIdArray)){
-      deleteIdArray = deleteIdArray.map((x:String) =>mongoose.Types.ObjectId(x));
-      const deleted = await contact.deleteMany({ _id: { $in: deleteIdArray }})
-      db=deleted
-    }else{
-      const deleted = await contact.deleteMany({})
-      db=deleted
-      }
+    let db;
+    if (strid) {
+      strid = mongoose.Types.ObjectId(strid);
+      db = await contact.remove({ _id: strid }).clone();
+    } else if (Array.isArray(deleteIdArray)) {
+      deleteIdArray = deleteIdArray.map((x: String) =>
+        mongoose.Types.ObjectId(x)
+      );
+      const deleted = await contact.deleteMany({ _id: { $in: deleteIdArray } });
+      db = deleted;
+    } else {
+      const deleted = await contact.deleteMany({});
+      db = deleted;
+    }
     return Promise.resolve(db);
   }
   // public async CheckAlreadyUser(): Promise<boolean> {

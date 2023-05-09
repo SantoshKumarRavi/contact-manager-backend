@@ -2,16 +2,17 @@ import { AbstractRouteController } from "../AbstractRouteController";
 import { Response, Request } from "express";
 import { Contacts } from "../../serviceclasses/contacts/Contacts";
 import { StatusConstants } from "../../constants/StatusConstants";
-
-export class ContactsController extends AbstractRouteController {
+import { AuthenticationController } from "../AuthenticationController";
+export class ContactsController extends AuthenticationController {
   constructor(link: string) {
     super();
     this.path = "/contacts/:id?";
+    this.InitializAuthMiddleware();
     this.InitializeController(link);
     this.InitializeDeleteController(link);
   }
   public async InitializeDeleteController(link: string) {
-    console.log("checking Delete",link + this.path)
+    console.log("checking Delete", link + this.path);
     await this.InitializeDelete();
   }
   public async InitializeDelete() {

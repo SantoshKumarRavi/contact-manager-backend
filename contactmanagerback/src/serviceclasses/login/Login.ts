@@ -11,6 +11,9 @@ interface _userObject {
   password: String;
   _id: String;
 }
+interface JwtObj {
+  id: String;
+}
 export class Login {
   email: String;
   password: String;
@@ -33,7 +36,9 @@ export class Login {
   //         message: "You are registered successfully, please Log IN",
   //     })
   // }
-  public async generateJWT_token(JWT_SECRET_KEY: String): Promise<any> {
+  public async generateJWT_token(
+    JWT_SECRET_KEY: String | undefined
+  ): Promise<any> {
     const existing = await this.UserDetails();
     const token = jwt.sign(
       { email: this.email, id: existing._id },
@@ -50,19 +55,45 @@ export class Login {
       userid: existing._id,
     });
   }
+  public async verifyJWT_token(
+    JWT_SECRET_KEY: String,
+    token: String
+  ): Promise<any> {
+    try {
+      if (!token) {
+        throw Error("false");
+      }
+      const checkToken = async function () {
+        return await jwt.verify(
+          token,
+          JWT_SECRET_KEY,
+          async (err: string, decoded: JwtObj) => {
+            if (err) {
+              throw Error(err);
+            }
+          }
+        );
+      };
+      return await checkToken().then(() => {
+        return Promise.resolve(true);
+      });
+    } catch (err: any) {
+      return Promise.resolve(false);
+    }
+  }
   public async UserDetails(): Promise<_userObject> {
     const existing = await user.findOne({ email: this.email });
     return Promise.resolve(existing);
   }
   public async BcrptyPassword_Matching(): Promise<Boolean> {
     const existing = await this.UserDetails();
-    if(existing?.password){
-        const isPasswordMatching = await bcrypt.compare(
-            this.password,
-            existing?.password
-          );
-          return Promise.resolve(isPasswordMatching);
+    if (existing?.password) {
+      const isPasswordMatching = await bcrypt.compare(
+        this.password,
+        existing?.password
+      );
+      return Promise.resolve(isPasswordMatching);
     }
-    return false
+    return false;
   }
 }
