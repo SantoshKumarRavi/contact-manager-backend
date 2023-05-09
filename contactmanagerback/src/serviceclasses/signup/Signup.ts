@@ -33,7 +33,6 @@ export class Signup{
     }
     public async CheckAlreadyUser():Promise<boolean>{
         const existing = await user.findOne({ email: this.email })
-        console.log("this.email",existing);
         return Promise.resolve(existing!==null)
     }
 }

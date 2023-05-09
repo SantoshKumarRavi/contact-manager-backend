@@ -1,5 +1,5 @@
-const data= require("../src/index.ts");
-const Schema=data.mongoose.Schema
+import mongoose = require("mongoose");
+const Schema=mongoose.Schema
 
 const contactschema = new Schema({
     UserId:String,
@@ -11,5 +11,5 @@ const contactschema = new Schema({
     Phonenumber:String,
     Country:String
   });
-const contact =data.mongoose.model('contact',contactschema);
+const contact =mongoose.model('contact',contactschema);
 module.exports=contact

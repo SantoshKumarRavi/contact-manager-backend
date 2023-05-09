@@ -14,7 +14,6 @@ export class InitializeMiddleWare{
 
     public static async InitializeErrorHandlingMiddleware(app :Express){
         let errorMiddleware = new ErrorHandlingMiddleware(app)
-
         await errorMiddleware.handle404Error()
     }
 }

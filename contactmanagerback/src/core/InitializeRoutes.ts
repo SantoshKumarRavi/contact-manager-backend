@@ -1,7 +1,8 @@
 import { Express } from 'express'
 import { HelloWorldRouteController } from '../routes/helloworld/HelloWorldRouteController'
 import { SignupController } from '../routes/authentication/SignupController'
-
+import { LoginController } from '../routes/authentication/LoginController'
+import { ContactsController } from '../routes/contacts/ContactsController'
 import { AbstractRouteController } from '../routes/AbstractRouteController'
 
 export class InitializeRoutes {
@@ -15,6 +16,8 @@ export class InitializeRoutes {
         let routes: Array<AbstractRouteController> = []
         routes.push(new HelloWorldRouteController(link))
         routes.push(new SignupController(link))
+        routes.push(new LoginController(link))
+        routes.push(new ContactsController(link))
         return Promise.resolve(routes)
     }
 }
